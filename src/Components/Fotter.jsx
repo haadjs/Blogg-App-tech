@@ -1,20 +1,39 @@
-// Footer.js
-import React from 'react';
+import React from "react";
+import { FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 const Fotter = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4">
-      <div className="container mx-auto text-center">
-        <p>&copy; 2025 Haad Sheikh. All rights reserved.</p>
-        <div className="mt-2">
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-600 mx-2">
-            Twitter
+    <footer className="bg-gray-950 text-purple-300 py-8 shadow-inner">
+      <div className="container mx-auto text-center px-4">
+        <p className="text-sm mb-4">
+          &copy; {new Date().getFullYear()}{" "}
+          <span className="font-semibold text-purple-400">Haad Sheikh</span>.
+          All rights reserved.
+        </p>
+        <div className="flex justify-center gap-6 text-xl">
+          <a
+            href="https://www.facebook.com/profile.php?id=61555704857977"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-500 transition"
+          >
+            <FaFacebookF />
           </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-600 mx-2">
-            GitHub
+          <a
+            href="https://github.com/haadjs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition"
+          >
+            <FaGithub />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-600 mx-2">
-            LinkedIn
+          <a
+            href="https://www.linkedin.com/in/haad-sheikh/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400 transition"
+          >
+            <FaLinkedinIn />
           </a>
         </div>
       </div>

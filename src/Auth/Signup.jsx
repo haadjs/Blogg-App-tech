@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../Auth/config";
-import { useNavigate } from "react-router-dom";
+import { auth } from "../Auth/config";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,17 +11,18 @@ const Signup = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   const handleSignup = async (e) => {
-
-
     e.preventDefault();
-    setErrorMsg("");
-    setSuccessMsg("");
-
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       setSuccessMsg("Signup successful! 🎉");
-      window.location.href = "/log";
+      setTimeout(() => {
+        window.location.href = "/log";
+      }, 1500);
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -28,45 +31,80 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-purple-900 dark:bg-purple-950 transition-colors">
-      <div className="bg-purple-800 dark:bg-purple-900 text-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">Create an Account</h2>
-        <div  className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] transition-colors">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="bg-[#1e1b4b] text-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
+      >
+        <h2 className="text-3xl font-bold mb-6 text-center text-purple-300">
+          Create Account
+        </h2>
+
+        <form onSubmit={handleSignup} className="space-y-5">
           <div>
-            <label className="block text-white font-medium mb-1">Email</label>
+            <label className="block mb-1 text-purple-300 font-medium">
+              Email
+            </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-purple-700 bg-purple-700 text-white rounded-xl outline-none focus:ring-2 focus:ring-purple-300"
+              className="w-full px-4 py-2 bg-[#2a2550] text-white border border-purple-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
+
           <div>
-            <label className="block text-white font-medium mb-1">Password</label>
+            <label className="block mb-1 text-purple-300 font-medium">
+              Password
+            </label>
             <input
               type="password"
-              className="w-full px-4 py-2 border border-purple-700 bg-purple-700 text-white rounded-xl outline-none focus:ring-2 focus:ring-purple-300"
+              className="w-full px-4 py-2 bg-[#2a2550] text-white border border-purple-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-xl hover:bg-purple-700 transition-all"
-            onClick={handleSignup}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-xl transition-all"
           >
             Sign Up
-          </button>
-        </div>
+          </motion.button>
+
+          <div className="text-center text-sm text-purple-300 mt-2">
+            Already have an account?{" "}
+            <Link to="/log" className="text-purple-400 hover:underline">
+              Log In
+            </Link>
+          </div>
+        </form>
+
         {errorMsg && (
-          <p className="mt-4 text-red-400 text-sm text-center">{errorMsg}</p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-4 text-red-400 text-sm text-center"
+          >
+            {errorMsg}
+          </motion.p>
         )}
         {successMsg && (
-          <p className="mt-4 text-green-400 text-sm text-center">{successMsg}</p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-4 text-green-400 text-sm text-center"
+          >
+            {successMsg}
+          </motion.p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };
