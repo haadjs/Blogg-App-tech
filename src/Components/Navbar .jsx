@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "./Button";
 import { auth } from "../Auth/config";
 import { signOut } from "firebase/auth";
+import About from "../Pages/About";
 let logout = () => {
   signOut(auth)
     .then(() => {
@@ -53,12 +54,13 @@ const Navbar = () => {
             />
           </li>
           <li>
-            <Button
+            {<About/> ?<Button
               onClick={() => logout()}
               title="Logout"
               to="/log"
               className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 transition-all"
-            />
+            /> : ""}
+            
           </li>
         </ul>
       </div>

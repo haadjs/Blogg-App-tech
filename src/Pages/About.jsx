@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import giff from "../assets/working.gif"; // ✅ Renamed and fixed path
+import giff from "../assets/working.gif";
 
 const About = () => {
   return (
