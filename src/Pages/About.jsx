@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import giff from "../assets/Working Never Ending GIF by amelietour.gif";
+import giff from "../assets/working.gif"; // ✅ Renamed and fixed path
 
 const About = () => {
   return (

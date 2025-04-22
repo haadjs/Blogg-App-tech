@@ -1,27 +1,59 @@
-import React, { useState } from "react";
-import { db } from "../Auth/config";
-
-import { collection, addDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db, auth } from "../Auth/config";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, addDoc, getDocs,query,where } from "firebase/firestore";
 
 const Dashboard = () => {
   const [usertitle, setUserTitle] = useState("");
   const [userdesc, setUserDesc] = useState("");
   const [error, setError] = useState("");
+  const [userid, setUserid] = useState("");
+  const [username, setName] = useState("");
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserid(user.uid);
+        console.log("User ID:", user.uid);
+
+        try {
+          const q = query(
+            collection(db, "username"),
+            where("uid", "==", user.uid)
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            setName(doc.data().userName)
+          });
+        } catch (err) {
+          console.error("Error fetching username:", err.message);
+        }
+      } else {
+        alert("No user is signed in");
+        window.location.href = "/";
+      }
+    });
+
+    return () => unsubscribe(); 
+    }, []);
   const submitData = async (e) => {
     e.preventDefault();
 
     try {
       const docRef = await addDoc(collection(db, "userBlogs"), {
+        Name : username,
+        userid: userid,
         title: usertitle,
         description: userdesc,
+        createAt : new Date
       });
       console.log("Document written with ID: ", docRef.id);
       setUserTitle("");
       setUserDesc("");
       setError("");
     } catch (e) {
-      setError(e);
+      console.error("Error adding document: ", e.message);
+      setError(e.message);
     }
   };
 
@@ -70,9 +102,7 @@ const Dashboard = () => {
         </form>
 
         {error && (
-          <p className="mt-4 text-red-400 text-sm text-center">
-            {error.message}
-          </p>
+          <p className="mt-4 text-red-400 text-sm text-center">{error}</p>
         )}
       </div>
     </div>

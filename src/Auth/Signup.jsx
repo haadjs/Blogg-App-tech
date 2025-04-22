@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import {db} from '../Auth/config'
 import { auth } from "../Auth/config";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Signup = () => {
+  const [username, setUsername] = useState(""); // ✅ NEW
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,10 +22,26 @@ const Signup = () => {
         password
       );
       const user = userCredential.user;
+      
+
+   try {
+         const docRef = await addDoc(collection(db, "username"), {
+          uid : user.uid,
+         userName : username
+         });
+         console.log("Document written with ID: ", docRef.id);
+       } catch (e) {
+         console.error("Error adding document: ", e.message);
+         setError(e.message);
+       }
+     
+      
       setSuccessMsg("Signup successful! 🎉");
       setTimeout(() => {
         window.location.href = "/log";
-      }, 1500);
+      }, 1000);
+
+      setUsername(""); // clear username
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -43,6 +62,20 @@ const Signup = () => {
         </h2>
 
         <form onSubmit={handleSignup} className="space-y-5">
+          {/* ✅ Username */}
+          <div>
+            <label className="block mb-1 text-purple-300 font-medium">
+              Username
+            </label>
+            <input
+              type="text"
+              className="w-full px-4 py-2 bg-[#2a2550] text-white border border-purple-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
           <div>
             <label className="block mb-1 text-purple-300 font-medium">
               Email

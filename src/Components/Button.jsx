@@ -1,10 +1,11 @@
+// src/Components/Button.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Button = ({ title, className, to, onClick }) => {
   if (to) {
     return (
-      <Link to={to} className={className}>
+      <Link to={to} className={className} onClick={onClick}>
         {title}
       </Link>
     );
@@ -17,4 +18,4 @@ const Button = ({ title, className, to, onClick }) => {
   );
 };
 
-export default Button;
+export default Button; // ✅ THIS LINE IS REQUIRED

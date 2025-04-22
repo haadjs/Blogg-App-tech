@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../Auth/config";
 import { motion } from "framer-motion";
 import Button from "../Components/Button";
-import gif from "../assets/2832fb71252497.5bbeed275ae64.gif";
+import gif from "../assets/my.gif";
 import { collection, getDocs } from "firebase/firestore";
 import BlogCard from "../Components/BlogCard";
 
@@ -13,11 +13,10 @@ const Home = () => {
 
   useEffect(() => {
     let blogsarr = [];
-    let fetchData = async () => {
+    const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "userBlogs"));
         querySnapshot.forEach((doc) => {
-          console.log(doc.data());
           blogsarr.push({ id: doc.id, ...doc.data() });
         });
         setBlogs(blogsarr);
@@ -33,9 +32,10 @@ const Home = () => {
 
   return (
     <>
-      <div className="  min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center px-6 py-12">
+      {/* HERO SECTION */}
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center px-6 py-16">
         <div className="grid md:grid-cols-2 gap-12 max-w-7xl w-full items-center">
-          {/* Left Content */}
+          {/* LEFT */}
           <motion.div
             className="space-y-6"
             initial={{ opacity: 0, y: 40 }}
@@ -45,14 +45,12 @@ const Home = () => {
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text">
               Show Your Ideas in Public
             </h1>
-
             <p className="text-gray-300 text-lg md:text-xl">
               Welcome to a world of thoughts, ideas, and inspiration—where every
               blog tells a story, sparks curiosity, and connects minds across
               the globe.
             </p>
-
-            <div className="flex flex-wrap gap-4 pt-4 ">
+            <div className="flex flex-wrap gap-4 pt-4">
               <Button
                 title="Login"
                 to="/log"
@@ -66,7 +64,7 @@ const Home = () => {
             </div>
           </motion.div>
 
-          {/* Right Image */}
+          {/* RIGHT */}
           <motion.div
             className="flex justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -84,34 +82,45 @@ const Home = () => {
         </div>
       </div>
 
-      <section>
-        <div>
-          <h1 className="text-4xl text-center mb-2 font-bold text-gray-900 dark:text-white">
+      {/* BLOGS SECTION */}
+      <section className="bg-gray-100 dark:bg-gray-900 py-16 px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
             Blogs
-          </h1>
-          <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             Explore our latest blogs
           </p>
         </div>
 
-        <div>
-          {loading && (
-            <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
-              Loading...
+        {/* Loading/Error State */}
+        {loading && (
+          <p className="text-center text-gray-600 dark:text-gray-400">
+            <span className="loading loading-bars text-2xl loading-xl text-purple-600"></span>
+          </p>
+        )}
+        {error && <p className="text-center text-red-500">{error}</p>}
+        {(!blogs || blogs.length === 0) && (
+          <div className="flex justify-center items-center h-40">
+            <p className="text-gray-400 text-lg text-center">
+              No blogs available yet 🕸️
             </p>
-          )}
-          {error && <p className="text-center text-red-500 mt-2">{error}</p>}
+          </div>
+        )}
 
+        {/* Blog Cards */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
           {blogs &&
-            blogs.map((item, indx) => {
-              return (
-                <BlogCard
-                  key={indx}
-                  title={item.title}
-                  desc={item.description}
-                />
-              );
-            })}
+            blogs.map((item, indx) => (
+              <BlogCard
+                id = {item.userid}
+                key={indx}
+                title={item.title}
+                desc={item.description}
+                username={item.Name?.toUpperCase() || "Anonymous"} // Adjusted for username field
+                date={item.createdAt ? item.createdAt.toDate() : null} // Convert Firestore timestamp
+              />
+            ))}
         </div>
       </section>
     </>
