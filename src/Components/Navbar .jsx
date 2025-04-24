@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { auth } from "../Auth/config";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const Navbar = () => {
+  const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); 
+    });
+
+    return () => unsubscribe(); 
+  }, []);
 
   const logout = () => {
     signOut(auth)
@@ -66,30 +75,34 @@ const Navbar = () => {
           {["Home", "About", "Contact"].map((item, index) => (
             <li key={index}>
               <Link
-                to={`/${
-                  item.toLowerCase() === "home" ? "" : item.toLowerCase()
-                }`}
+                to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
                 className="hover:text-purple-400 hover:scale-105 transition-all duration-300"
               >
                 {item}
               </Link>
             </li>
           ))}
-          <li>
-            <Button
-              title="Sign In"
-              to="/log"
-              className="bg-purple-600 text-white py-2 px-4 rounded-xl hover:bg-purple-700 hover:scale-105 transition-all duration-300"
-            />
-          </li>
-          <li>
-            <Button
-              onClick={logout}
-              title="Logout"
-              to="/log"
-              className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
-            />
-          </li>
+
+          {!user && (
+            <li>
+              <Button
+                title="Sign In"
+                to="/log"
+                className="bg-purple-600 text-white py-2 px-4 rounded-xl hover:bg-purple-700 hover:scale-105 transition-all duration-300"
+              />
+            </li>
+          )}
+
+          {user && (
+            <li>
+              <Button
+                onClick={logout}
+                title="Logout"
+                to="/log"
+                className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
+              />
+            </li>
+          )}
         </ul>
       </div>
 
@@ -100,9 +113,7 @@ const Navbar = () => {
             {["Home", "About", "Contact"].map((item, index) => (
               <li key={index}>
                 <Link
-                  to={`/${
-                    item.toLowerCase() === "home" ? "" : item.toLowerCase()
-                  }`}
+                  to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
                   onClick={() => setIsOpen(false)}
                   className="hover:text-purple-400 transition-all duration-300 hover:scale-105"
                 >
@@ -110,21 +121,27 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-            <li className="mt-3">
-              <Button
-                title="Sign In"
-                to="/log"
-                className="bg-purple-600 text-white py-2 px-4 rounded-xl hover:bg-purple-700 hover:scale-105 transition-all duration-300"
-              />
-            </li>
-            <li className="mb-3">
-              <Button
-                onClick={logout}
-                title="Logout"
-                to="/log"
-                className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
-              />
-            </li>
+
+            {!user && (
+              <li className="mt-3">
+                <Button
+                  title="Sign In"
+                  to="/log"
+                  className="bg-purple-600 text-white py-2 px-4 rounded-xl hover:bg-purple-700 hover:scale-105 transition-all duration-300"
+                />
+              </li>
+            )}
+
+            {user && (
+              <li className="mb-3">
+                <Button
+                  onClick={logout}
+                  title="Logout"
+                  to="/log"
+                  className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
+                />
+              </li>
+            )}
           </ul>
         </div>
       )}
