@@ -26,7 +26,6 @@ const Contact = () => {
           </div>
         </motion.div>
 
-       
         <motion.form
           className="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-white/20 space-y-6"
           initial={{ opacity: 0, x: 50 }}

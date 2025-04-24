@@ -35,7 +35,6 @@ const SingleBlog = () => {
     return <p className="text-white text-center mt-10">No blog found.</p>;
 
   // Convert Firestore Timestamp to readable format
- 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white px-6 py-16">

@@ -10,7 +10,6 @@ import Login from "./Auth/Login";
 import Dashboard from "./Pages/Dashboard";
 import About from "./Pages/About";
 
-
 let router = createBrowserRouter([
   {
     path: "/",

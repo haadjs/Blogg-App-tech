@@ -19,7 +19,7 @@ const Dashboard = () => {
   let date = new Date();
   let hours = date.getHours();
   let minutes = date.getMinutes();
-  let sec  = date.getSeconds();
+  let sec = date.getSeconds();
   let time = `${hours}:${minutes}:${sec}`;
 
   useEffect(() => {

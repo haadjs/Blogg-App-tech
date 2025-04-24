@@ -14,7 +14,11 @@ const About = () => {
           transition={{ duration: 1 }}
         >
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-white/20">
-            <img src={giff} alt="About" className="w-full max-w-md rounded-xl" />
+            <img
+              src={giff}
+              alt="About"
+              className="w-full max-w-md rounded-xl"
+            />
           </div>
         </motion.div>
 
