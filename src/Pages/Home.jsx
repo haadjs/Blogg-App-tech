@@ -113,12 +113,12 @@ const Home = () => {
           {blogs &&
             blogs.map((item, indx) => (
               <BlogCard
-                id = {item.userid}
+                id={item.userid}
                 key={indx}
                 title={item.title}
                 desc={item.description}
                 username={item.Name?.toUpperCase() || "Anonymous"} // Adjusted for username field
-                date={item.createdAt ? item.createdAt.toDate() : null} // Convert Firestore timestamp
+                date={item.publish}
               />
             ))}
         </div>

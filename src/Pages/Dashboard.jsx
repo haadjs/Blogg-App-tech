@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../Auth/config";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc, getDocs,query,where } from "firebase/firestore";
-
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  Timestamp,
+} from "firebase/firestore";
 const Dashboard = () => {
   const [usertitle, setUserTitle] = useState("");
   const [userdesc, setUserDesc] = useState("");
   const [error, setError] = useState("");
   const [userid, setUserid] = useState("");
   const [username, setName] = useState("");
+
+  let date = new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let sec  = date.getSeconds();
+  let time = `${hours}:${minutes}:${sec}`;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -23,7 +35,7 @@ const Dashboard = () => {
           );
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
-            setName(doc.data().userName)
+            setName(doc.data().userName);
           });
         } catch (err) {
           console.error("Error fetching username:", err.message);
@@ -34,18 +46,18 @@ const Dashboard = () => {
       }
     });
 
-    return () => unsubscribe(); 
-    }, []);
+    return () => unsubscribe();
+  }, []);
   const submitData = async (e) => {
     e.preventDefault();
 
     try {
       const docRef = await addDoc(collection(db, "userBlogs"), {
-        Name : username,
+        Name: username,
         userid: userid,
         title: usertitle,
         description: userdesc,
-        createAt : new Date
+        publish: time,
       });
       console.log("Document written with ID: ", docRef.id);
       setUserTitle("");
