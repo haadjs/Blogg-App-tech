@@ -102,6 +102,17 @@ const Navbar = () => {
           {user && (
             <li>
               <Button
+              
+                title="Post"
+                to="/dash"
+                className="bg-purple-700 text-white py-2 px-4 rounded-xl w-20 hover:bg-purple-300 hover:scale-105 transition-all duration-300 "
+              />
+            </li>
+          )}
+
+          {user && (
+            <li>
+              <Button
                 onClick={logout}
                 title="Logout"
                 to="/"

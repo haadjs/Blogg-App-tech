@@ -45,7 +45,7 @@ const Home = () => {
     <>
       <div>
         {!isuser && (
-          <p className="text-red-600 text-center bg-amber-500 p-1 animate-pulse">
+          <p className="text-red-600 text-center bg-black p-1 font-bold animate-pulse">
             Sign in first to post a blog or read others' blogs.
           </p>
         )}
@@ -61,7 +61,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text">
+            <h1 className="text-4xl  md:text-6xl font-extrabold leading-tight bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text ">
               Show Your Ideas in Public
             </h1>
             <p className="text-gray-300 text-lg md:text-xl">
@@ -70,11 +70,13 @@ const Home = () => {
               the globe.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <Button
-                title="Login"
-                to="/log"
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl transition-all shadow-md"
-              />
+              {!isuser && (
+                <Button
+                  title="Login"
+                  to="/log"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl transition-all shadow-md"
+                />
+              )}
 
               <Button
                 title="Create Blog Post"
@@ -105,10 +107,10 @@ const Home = () => {
       {/* BLOGS SECTION */}
       <section className="bg-gray-100 dark:bg-gray-900 py-16 px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white underline">
             Blogs
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-gray-600 text-lg dark:text-gray-400 mt-5">
             Explore our latest blogs
           </p>
         </div>
