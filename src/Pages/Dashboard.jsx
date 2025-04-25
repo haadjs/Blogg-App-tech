@@ -9,12 +9,14 @@ import {
   where,
   Timestamp,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [usertitle, setUserTitle] = useState("");
   const [userdesc, setUserDesc] = useState("");
   const [error, setError] = useState("");
   const [userid, setUserid] = useState("");
   const [username, setName] = useState("");
+  let navigate = useNavigate()
 
   let date = new Date();
   let hours = date.getHours();
@@ -40,14 +42,13 @@ const Dashboard = () => {
         } catch (err) {
           console.error("Error fetching username:", err.message);
         }
-      } else {
-        alert("No user is signed in");
-        window.location.href = "/";
       }
+      
     });
 
     return () => unsubscribe();
   }, []);
+
   const submitData = async (e) => {
     e.preventDefault();
 

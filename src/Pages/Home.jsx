@@ -5,11 +5,27 @@ import Button from "../Components/Button";
 import gif from "../assets/my.gif";
 import { collection, getDocs } from "firebase/firestore";
 import BlogCard from "../Components/BlogCard";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+
+  useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+        } else {
+          alert("No user is signed in");
+        }
+      });
+  
+      return () => unsubscribe();
+    }, []);
+  
+
+
 
   useEffect(() => {
     let blogsarr = [];
