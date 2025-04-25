@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { auth } from "../Auth/config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import logo from '../assets/Screenshot_2025-04-26_014410-removebg-preview.png'
+import logo from "../assets/Screenshot_2025-04-26_014410-removebg-preview.png";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -23,7 +23,8 @@ const Navbar = () => {
       .then(() => {
         alert("Logout successfully");
 
-        navigate("/log");
+        navigate("/");
+        navigate(0);
       })
       .catch((error) => {
         console.error("Logout error:", error.message);
@@ -38,7 +39,7 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-extrabold text-purple-400 hover:text-white transition-all duration-300 ease-in-out"
         >
-         <img src={logo} alt=""  width={150}/>
+          <img src={logo} alt="" width={150} />
         </Link>
 
         {/* Hamburger Icon */}

@@ -43,7 +43,7 @@ const Dashboard = () => {
           console.error("Error fetching username:", err.message);
         }
       } else {
-        navigate("/");
+        // navigate("/");
       }
     });
 

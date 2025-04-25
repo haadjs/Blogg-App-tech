@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, where, query } from "firebase/firestore";
-import { db } from "../Auth/config";
+import { db, auth } from "../Auth/config";
+import { onAuthStateChanged } from "firebase/auth";
 
 const SingleBlog = () => {
   const param = useParams();
@@ -9,6 +10,16 @@ const SingleBlog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   let navigate = useNavigate();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setIsuser(user);
+      } else {
+        // navigate('/')
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const fetchBlog = async () => {

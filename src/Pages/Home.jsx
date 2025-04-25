@@ -13,7 +13,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   let [isuser, setisUser] = useState(null);
-  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -76,13 +75,12 @@ const Home = () => {
                 to="/log"
                 className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl transition-all shadow-md"
               />
-              {isuser && (
-                <Button
-                  title="Create Blog Post"
-                  to="/dash"
-                  className="bg-transparent border border-purple-600 hover:bg-purple-800 text-purple-300 px-6 py-2 rounded-xl transition-all shadow-md"
-                />
-              )}
+
+              <Button
+                title="Create Blog Post"
+                to={isuser ? "/dash" : null}
+                className="bg-transparent border border-purple-600 hover:bg-purple-800 text-purple-300 px-6 py-2 rounded-xl transition-all shadow-md"
+              />
             </div>
           </motion.div>
 
