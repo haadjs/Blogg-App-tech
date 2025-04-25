@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from "../Auth/config";
 
@@ -8,6 +8,7 @@ const SingleBlog = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -29,7 +30,11 @@ const SingleBlog = () => {
   }, [param.id]);
 
   if (loading)
-    return <p className="text-white text-center mt-10">Loading...</p>;
+    return (
+      <p className="text-white text-center mt-10 mb-10">
+        <span className="loading loading-bars text-purple-600 loading-xl"></span>
+      </p>
+    );
   if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
   if (!blog)
     return <p className="text-white text-center mt-10">No blog found.</p>;
@@ -53,18 +58,21 @@ const SingleBlog = () => {
         </p>
 
         <div className="mt-6 flex items-center gap-4">
-          <img
+          {/* <img
             src="https://i.pravatar.cc/40"
             alt="Author"
             className="w-10 h-10 rounded-full"
-          />
+          /> */}
           <span className="text-purple-400 font-semibold">
-            👨‍💻 By: {blog.name}
+            👨‍💻 By: {blog.Name}
           </span>
         </div>
 
         <div className="pt-6 border-t border-white/10">
-          <button className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-xl transition-all text-white shadow-md text-sm">
+          <button
+            className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-xl transition-all text-white shadow-md text-sm"
+            onClick={() => navigate("/")}
+          >
             Back to Blogs
           </button>
         </div>

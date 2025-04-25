@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import {db} from '../Auth/config'
 import { auth } from "../Auth/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Signup = () => {
@@ -12,6 +12,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  let navigate = useNavigate()
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const Signup = () => {
       
       setSuccessMsg("Signup successful! 🎉");
       setTimeout(() => {
-        window.location.href = "/log";
+       navigate('/log')
       }, 1000);
 
       setUsername(""); // clear username

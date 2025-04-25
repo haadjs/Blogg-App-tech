@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [userid, setUserid] = useState("");
   const [username, setName] = useState("");
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   let date = new Date();
   let hours = date.getHours();
@@ -42,8 +42,9 @@ const Dashboard = () => {
         } catch (err) {
           console.error("Error fetching username:", err.message);
         }
+      } else {
+        navigate("/");
       }
-      
     });
 
     return () => unsubscribe();

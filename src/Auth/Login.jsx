@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Auth/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { s } from "framer-motion/client";
 
@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-
+  let navigate = useNavigate()
   const handleLogin = (e) => {
     e.preventDefault();
     setErrorMsg("");
@@ -23,7 +23,7 @@ const Login = () => {
         setEmail("");
         setPassword("");
         setTimeout(() => {
-          window.location.href = "/";
+          navigate('/')
         }, 1500);
       })
       .catch((error) => {

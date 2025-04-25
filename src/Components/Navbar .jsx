@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { auth } from "../Auth/config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import logo from '../assets/Screenshot_2025-04-26_014410-removebg-preview.png'
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  let navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); 
+      setUser(user);
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
 
   const logout = () => {
     signOut(auth)
       .then(() => {
         alert("Logout successfully");
-        window.location.href = "/log";
+
+        navigate("/log");
       })
       .catch((error) => {
         console.error("Logout error:", error.message);
@@ -35,7 +38,7 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-extrabold text-purple-400 hover:text-white transition-all duration-300 ease-in-out"
         >
-          Haad's Blog
+         <img src={logo} alt=""  width={150}/>
         </Link>
 
         {/* Hamburger Icon */}
@@ -75,7 +78,9 @@ const Navbar = () => {
           {["Home", "About", "Contact"].map((item, index) => (
             <li key={index}>
               <Link
-                to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
+                to={`/${
+                  item.toLowerCase() === "home" ? "" : item.toLowerCase()
+                }`}
                 className="hover:text-purple-400 hover:scale-105 transition-all duration-300"
               >
                 {item}
@@ -98,7 +103,7 @@ const Navbar = () => {
               <Button
                 onClick={logout}
                 title="Logout"
-                to="/log"
+                to="/"
                 className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
               />
             </li>
@@ -113,7 +118,9 @@ const Navbar = () => {
             {["Home", "About", "Contact"].map((item, index) => (
               <li key={index}>
                 <Link
-                  to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
+                  to={`/${
+                    item.toLowerCase() === "home" ? "" : item.toLowerCase()
+                  }`}
                   onClick={() => setIsOpen(false)}
                   className="hover:text-purple-400 transition-all duration-300 hover:scale-105"
                 >
@@ -137,7 +144,7 @@ const Navbar = () => {
                 <Button
                   onClick={logout}
                   title="Logout"
-                  to="/log"
+                  to="/"
                   className="bg-gray-700 text-white py-2 px-4 rounded-xl hover:bg-gray-600 hover:scale-105 transition-all duration-300"
                 />
               </li>

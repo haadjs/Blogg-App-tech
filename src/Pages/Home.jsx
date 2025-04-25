@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { auth } from "../Auth/config";
 import { db } from "../Auth/config";
 import { motion } from "framer-motion";
 import Button from "../Components/Button";
@@ -11,21 +12,16 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  let [isuser, setisUser] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
-        if (user) {
-        } else {
-          alert("No user is signed in");
-        }
-      });
-  
-      return () => unsubscribe();
-    }, []);
-  
-
-
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setisUser(user);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     let blogsarr = [];
@@ -48,6 +44,14 @@ const Home = () => {
 
   return (
     <>
+      <div>
+        {!isuser && (
+          <p className="text-red-600 text-center bg-amber-500 p-1 animate-pulse">
+            Sign in first to post a blog or read others' blogs.
+          </p>
+        )}
+      </div>
+
       {/* HERO SECTION */}
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center px-6 py-16">
         <div className="grid md:grid-cols-2 gap-12 max-w-7xl w-full items-center">
@@ -72,11 +76,13 @@ const Home = () => {
                 to="/log"
                 className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl transition-all shadow-md"
               />
-              <Button
-                title="Create Blog Post"
-                to="/dash"
-                className="bg-transparent border border-purple-600 hover:bg-purple-800 text-purple-300 px-6 py-2 rounded-xl transition-all shadow-md"
-              />
+              {isuser && (
+                <Button
+                  title="Create Blog Post"
+                  to="/dash"
+                  className="bg-transparent border border-purple-600 hover:bg-purple-800 text-purple-300 px-6 py-2 rounded-xl transition-all shadow-md"
+                />
+              )}
             </div>
           </motion.div>
 
@@ -133,7 +139,7 @@ const Home = () => {
                 key={indx}
                 title={item.title}
                 desc={item.description}
-                username={item.Name?.toUpperCase() || "Anonymous"} // Adjusted for username field
+                username={item.Name?.toUpperCase() || "Anonymous"}
                 date={item.publish}
               />
             ))}

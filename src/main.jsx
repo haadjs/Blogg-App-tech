@@ -9,11 +9,13 @@ import Signup from "./Auth/Signup";
 import Login from "./Auth/Login";
 import Dashboard from "./Pages/Dashboard";
 import About from "./Pages/About";
+import Errorr from "./Pages/Errorr";
 
 let router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <Errorr />,
     children: [
       {
         path: "/",
